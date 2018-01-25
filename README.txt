@@ -3,3 +3,9 @@
    RDDs基本操作：Transformations、Actions 
    RDDs的特性：血统关系图、延迟计算 
    KeyValue对RDDs：重点combineByKey
+
+2018-01-25，星期四，深圳，大部多云
+1. 初步认识实时流处理：应用场景、技术选型（Spark Streaming、Storm）等
+2. 学习分布式日志收集框架Flume：总体概念、架构
+   监控一个文件实时采集新增的数据输出到控制台
+   将A服务器上的日志实时采集到B服务器
