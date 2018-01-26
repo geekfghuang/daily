@@ -14,3 +14,4 @@
 1. 分布式发布订阅消息系统Kafka学习：架构及核心概念
    单节点单broker部署、单节点多broker部署
    容错性测试与理解
+   整合Flume(1.8.0)和Kafka完成实时数据采集：exec-memory-avro -> avro-memory-kafka
