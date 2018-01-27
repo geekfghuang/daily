@@ -15,3 +15,10 @@
    单节点单broker部署、单节点多broker部署
    容错性测试与理解
    整合Flume(1.8.0)和Kafka完成实时数据采集：exec-memory-avro -> avro-memory-kafka
+
+2018-01-27，星期六，深圳，当前有霾
+1. Spark Streaming入门：概述、词频统计例子
+   spark-submit提交jar包方式运行词频统计
+   spark-shell编程方式（scala）运行词频统计
+   nc方式提交源数据
+2. 分别从粗、细粒度理解Spark Streaming工作原理
