@@ -22,3 +22,10 @@
    spark-shell编程方式（scala）运行词频统计
    nc方式提交源数据
 2. 分别从粗、细粒度理解Spark Streaming工作原理
+
+2018-01-28，星期日，深圳，多云
+1. 学习Spark Streaming核心概念与编程（IDEA工程、scala）
+   StreamingContext、DStream、InputDStreams、Receivers
+   Transformations、OutPutOperations
+   Spark Streaming处理socket数据
+   Spark Streaming处理文件系统（hdfs/local）数据
