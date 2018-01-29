@@ -31,8 +31,11 @@
    Spark Streaming处理文件系统（hdfs/local）数据
 
 2018-01-29，星期一，深圳，大部多云
-1. Spark Streaming进阶与案例编程
+1. Spark Streaming进阶与编程
    foreach将统计结果入库MySQL：connection序列化问题、性能问题
    窗口函数的理解与使用：窗口长度、滑动距离
    黑名单过滤：transform、leftOuterJoin、filter、map
-   
+2. Spark Streaming整合Flume编程：Flume采取Push方式
+   Spark Streaming先启动，充当avro source agent的角色A（打开端口接收数据）
+   Flume后启动，其avro sink指向A
+   mvn打包scala源码为jar包，spark-submit --packages 外部依赖jar 方式提交计算作业
