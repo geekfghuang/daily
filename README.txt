@@ -29,3 +29,10 @@
    Transformations、OutPutOperations
    Spark Streaming处理socket数据
    Spark Streaming处理文件系统（hdfs/local）数据
+
+2018-01-29，星期一，深圳，大部多云
+1. Spark Streaming进阶与案例编程
+   foreach将统计结果入库MySQL：connection序列化问题、性能问题
+   窗口函数的理解与使用：窗口长度、滑动距离
+   黑名单过滤：transform、leftOuterJoin、filter、map
+   
