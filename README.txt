@@ -39,3 +39,9 @@
    Spark Streaming先启动，充当avro source agent的角色A（打开端口接收数据）
    Flume后启动，其avro sink指向A
    mvn打包scala源码为jar包，spark-submit --packages 外部依赖jar 方式提交计算作业
+
+2018-01-30，星期二，深圳，多云
+1. Spark Streaming整合Flume编程：Streaming采取Pull方式
+   Flume相关jar包版本准确配置
+   Pull使用一个可靠的receiver且基于事务的方式从Flume sink缓冲里拉取数据
+   当数据被Streaming接收且复制完后，事务才算执行成功
