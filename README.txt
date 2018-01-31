@@ -45,3 +45,10 @@
    Flume相关jar包版本准确配置
    Pull使用一个可靠的receiver且基于事务的方式从Flume sink缓冲里拉取数据
    当数据被Streaming接收且复制完后，事务才算执行成功
+
+2018-01-31，星期三，深圳，阵雨
+1. Spark Streaming整合Kafka编程：基于Receiver方式
+   Streaming开启Receiver Job接收Kafka的数据，存储到Executor（内存）中
+   可以增加WALs的方式提高故障容错能力
+2. Spark Streaming整合Kafka编程：基于Direct方式
+   关注Direct与Receiver两种方式从Kafka读取数据的内部细节、区别与优缺点
