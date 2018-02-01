@@ -52,3 +52,9 @@
    可以增加WALs的方式提高故障容错能力
 2. Spark Streaming整合Kafka编程：基于Direct方式
    关注Direct与Receiver两种方式从Kafka读取数据的内部细节、区别与优缺点
+
+2018-02-01，星期四，深圳，大部多云
+1. 整合Flume、Kafka、Spark Streaming，实现通用流处理平台
+   log4j将日志输出到Flume avro source
+   日志经过Flume Kafka sink配置输出到Kafka
+   Spark Streaming读取Kafka的日志数据做计算处理
