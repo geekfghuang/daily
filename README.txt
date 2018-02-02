@@ -58,3 +58,9 @@
    log4j将日志输出到Flume avro source
    日志经过Flume Kafka sink配置输出到Kafka
    Spark Streaming读取Kafka的日志数据做计算处理
+
+2018-02-02，星期五，深圳，大部多云
+1. 用Python开发用户访问行为日志产生器，并用crontab定时调度产生日志
+2. Flume收集产生的日志到Kafka，Spark Streaming从Kafka接收日志数据
+   Spark Streaming Scala编程将接收到的日志数据进行清洗：转换格式，过滤等
+   RDDs Scala编程再度熟悉，对数据清洗有了具体的概念
