@@ -64,3 +64,9 @@
 2. Flume收集产生的日志到Kafka，Spark Streaming从Kafka接收日志数据
    Spark Streaming Scala编程将接收到的日志数据进行清洗：转换格式，过滤等
    RDDs Scala编程再度熟悉，对数据清洗有了具体的概念
+
+2018-02-03，星期六，深圳，局部多云
+1. 将清洗、过滤后的访问日志进行相应RDDs转换得到当天具体条目的访问次数统计结果
+2. 将统计结果入库到HBase
+   在Scala中调用Java函数、Java经过一层Thrift到Go服务，Go服务与HBase Thrift服务相连
+   为了避免Java HBase接口Deprecated以及Java HBase Client版本更换的麻烦，中间加一层Thrift，用Go最新的HBase Thrift Client连接HBase
