@@ -66,7 +66,13 @@
    RDDs Scala编程再度熟悉，对数据清洗有了具体的概念
 
 2018-02-03，星期六，深圳，局部多云
-1. 将清洗、过滤后的访问日志进行相应RDDs转换得到当天具体条目的访问次数统计结果
+1. 将清洗、过滤后的访问日志进行相应RDDs转换得到当天到现在为止具体条目的访问次数统计结果
 2. 将统计结果入库到HBase
    在Scala中调用Java函数、Java经过一层Thrift到Go服务，Go服务与HBase Thrift服务相连
    为了避免Java HBase接口Deprecated以及Java HBase Client版本更换的麻烦，中间加一层Thrift，用Go最新的HBase Thrift Client连接HBase
+
+2018-02-04，星期日，深圳，晴间多云
+1. 将清洗、过滤后的访问日志进行相应RDDs转换得到当天到现在为止由搜索引擎引流过来具体条目的访问次数统计结果
+2. Go服务将统计结果入库到HBase时遇到问题，具体问题如下：
+   共享变量var HBaseClient *hbase.THBaseServiceClient会报EOF等错误，将其改成每更新一条数据重新申请一个HBaseClient对象（局部），则问题解决
+   但类似简单对象访问方法、数据库连接对象、RPC Client对象等多线程共享访问的具体细节以及网络数据返回格式细节，有待研究
