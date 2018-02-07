@@ -90,7 +90,14 @@
    函数式编程思想、Scala语言基础
    尾递归优化普通递归函数可能引起的栈溢出问题
    用递归思想+函数式编程的方式4行代码实现快速排序
-2. Redis学习：Redis初识&复习
+2. Redis学习：Redis初识&复习、基本数据结构
    单线程、原子性：Redis在一个瞬间只会执行一条命令，可用于分布式ID生成器
    epoll IO多路复用模型：当客户端网络文件描述符ready时，即有命令写入
-   字符串：set、set nx|xx|ex、incr、incrby等
+   string：set、set nx|xx|ex、incr、incrby等
+
+2018-02-07，星期三，深圳，晴间多云，15°
+1. Redis学习：基本数据结构
+   hash：key field value，可类比关系型数据库，但具体field的ttl难以控制，可通过程序逻辑控制
+   list：链表实现，可作为简单消息队列，brpop key timeout设置阻塞等待
+   set：sadd、smembers、spop（随机弹出一个元素），sinter（共同关注）、sdiff、sunion [store destkey]
+   有序集合zset：默认从小到大，zadd、zincrby、zrange、zrangebyscore，常用排行榜实现
