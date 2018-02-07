@@ -101,3 +101,7 @@
    list：链表实现，可作为简单消息队列，brpop key timeout设置阻塞等待
    set：sadd、smembers、spop（随机弹出一个元素），sinter（共同关注）、sdiff、sunion [store destkey]
    有序集合zset：默认从小到大，zadd、zincrby、zrange、zrangebyscore，常用排行榜实现
+   慢查询slowlog：在命令生命周期的第三个阶段，可设置慢查询队列长度、慢查询时间阈值
+   流水线pipeline：1次网络+n条命令，到达服务器时命令会被拆分开，因此不是原子操作，而mget、mset等都是原子操作
+   发布订阅：channel与模式两种方式，channel用字典，模式用链表。每publish一条消息，从channel字典中取出客户端发送消息，然后遍历模式链表，如果模式与channel匹配，则发送
+   发布订阅与消息队列不同的是，发布订阅不会堆积历史消息
