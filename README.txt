@@ -105,3 +105,6 @@
    流水线pipeline：1次网络+n条命令，到达服务器时命令会被拆分开，因此不是原子操作，而mget、mset等都是原子操作
    发布订阅：channel与模式两种方式，channel用字典，模式用链表。每publish一条消息，从channel字典中取出客户端发送消息，然后遍历模式链表，如果模式与channel匹配，则发送
    发布订阅与消息队列不同的是，发布订阅不会堆积历史消息
+   bitmap：类型其实为string，最大到512MB。一般用来按位操作，使用恰当可节省内存
+   hyperloglog：本质还是string，三个命令pfadd、pfcount、pfmerge，一般用来统计独立用户总数等，极度节省内存，百万的数据才消费15KB左右的内存。但有0.81%的错误率，且无法取出单条数据
+   geo：geoadd、geopos、geodist等命令，可计算两个城市（经纬度）的距离，方圆多少公里内的远近城市等，底层为zset
