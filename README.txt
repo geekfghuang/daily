@@ -117,3 +117,8 @@
    AOF重写：bgrewriteaof命令或基于AOF重写配置，从内存中优化写命令到AOF文件中，注意并不是读入原生AOF文件做优化。例原生AOF incr count、incr count、incr count，重写后AOF set count 3
    bgrewriteaof子进程在重写AOF的过程中，新来的写命令会通过父进程进入aof-rewrite-buf，buf的命令再同步到新AOF文件中
    一般情况下不会使用RDB，会将其关掉；一般会使用AOF everysec的配置，当然要考虑具体应用场景
+2. Redis学习：主从复制
+   从节点一般要设置slave-read-only yes，设置不接受写命令，只允许读
+   全量复制：slave发送runid offset为? -1给master，master会基于bgsave，将RDB文件传输给slave，在bgsave以及传输的过程新的写命令会进入复制缓冲，待RDB传输完后将复制缓冲的命令发送给slave，slave flushall将所有数据清空后加载新数据，master再有新的写命令会实时同步给slave，保证主从节点数据一致
+   部分复制：可能因为网络一时断开的原因master无法同步写命令给slave，master会将写命令加入复制缓冲，slave节点将runid与offset发送个master，master会将复制缓冲中从offset开始到队尾的写命令发送给slave，保证主从节点数据一致（offset一致）
+   主从复制中发生故障时无法实现自动故障转移，要人工或脚本介入。如果slave节点故障，对应的程序客户端就要修改redis服务地址后重启将流量打到其他slave节点，实现只读迁移；如果master节点故障，就要对其中一个slave进行slaveof no one，再对其他slave节点重新slaveof new master，同样旧master对应的程序客户端要修改redis服务地址重启，实现读写迁移
