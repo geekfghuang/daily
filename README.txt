@@ -115,5 +115,5 @@
    RDB存在的问题：耗时耗性能（O(n)时间复杂度、fork()消耗内存）、容易丢失数据（save配置）
    AOF：appendonly yes、appendfsync everysec；always每条写命令都从缓冲区刷新到硬盘、everysec每秒将缓冲区里的写命令刷新到硬盘、no不可控，由OS决定刷新到硬盘的时机
    AOF重写：bgrewriteaof命令或基于AOF重写配置，从内存中优化写命令到AOF文件中，注意并不是读入原生AOF文件做优化。例原生AOF incr count、incr count、incr count，重写后AOF set count 3
-   bgrewriteaof子进程在重写AOF的过程中，新来的写命令会通过父进程进入aof-rewrite-buf，此buf的命令再同步到新的AOF文件中
+   bgrewriteaof子进程在重写AOF的过程中，新来的写命令会通过父进程进入aof-rewrite-buf，buf的命令再同步到新AOF文件中
    一般情况下不会使用RDB，会将其关掉；一般会使用AOF everysec的配置，当然要考虑具体应用场景
