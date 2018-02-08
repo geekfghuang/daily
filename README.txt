@@ -108,3 +108,12 @@
    bitmap：类型其实为string，最大到512MB。一般用来按位操作，使用恰当可节省内存
    hyperloglog：本质还是string，三个命令pfadd、pfcount、pfmerge，一般用来统计独立用户总数等，极度节省内存，百万的数据才消费15KB左右的内存。但有0.81%的错误率，且无法取出单条数据
    geo：geoadd、geopos、geodist等命令，可计算两个城市（经纬度）的距离，方圆多少公里内的远近城市等，底层为zset
+
+2018-02-08，星期四，深圳，晴间多云，17°
+1. Redis学习：持久化
+   RDB快照：save会阻塞排队的所有命令；bgsave会阻塞于fork产生子进程用于持久化，但fork是很快的，排队的命令基本不会阻塞；save 60 10000等配置都是基于bgsave实现
+   RDB存在的问题：耗时耗性能（O(n)时间复杂度、fork()消耗内存）、容易丢失数据（save配置）
+   AOF：appendonly yes、appendfsync everysec；always每条写命令都从缓冲区刷新到硬盘、everysec每秒将缓冲区里的写命令刷新到硬盘、no不可控，由OS决定刷新到硬盘的时机
+   AOF重写：bgrewriteaof命令或基于AOF重写配置，从内存中优化写命令到AOF文件中，注意并不是读入原生AOF文件做优化。例原生AOF incr count、incr count、incr count，重写后AOF set count 3
+   bgrewriteaof子进程在重写AOF的过程中，新来的写命令会通过父进程进入aof-rewrite-buf，此buf的命令再同步到新的AOF文件中
+   一般情况下不会使用RDB，会将其关掉；一般会使用AOF everysec的配置，当然要考虑具体应用场景
