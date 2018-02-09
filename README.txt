@@ -123,3 +123,28 @@
    全量复制：slave发送runid offset为? -1给master，master会基于bgsave，将RDB文件传输给slave，在bgsave以及传输的过程新的写命令会进入复制缓冲，待RDB传输完后将复制缓冲的命令发送给slave，slave flushall将所有数据清空后加载新数据，master再有新的写命令会实时同步给slave，保证主从节点数据一致
    部分复制：可能因为网络一时断开的原因master无法同步写命令给slave，master会将写命令加入复制缓冲，slave节点将runid与offset发送个master，master会将复制缓冲中从offset开始到队尾的写命令发送给slave，保证主从节点数据一致（offset一致）
    主从复制中发生故障时无法实现自动故障转移，要人工或脚本介入。如果slave节点故障，对应的程序客户端就要修改redis服务地址后重启将流量打到其他slave节点，实现只读迁移；如果master节点故障，就要对其中一个slave进行slaveof no one，再对其他slave节点重新slaveof new master，同样旧master对应的程序客户端要修改redis服务地址重启，实现读写迁移
+
+2018-02-09，星期五，深圳，多云，19°
+1. Redis学习：Sentinel
+   Redis Sentinel是Redis高可用读写分离的实现方案：故障发现、故障自动转移、配置中心（并非代理master）、客户端通知
+   Redis Sentinel通过三个定时任务实现了Sentinel节点对主节点、从节点、其余Sentinel节点的监控
+   Redis Sentinel在对节点做失败判定时分别为主观下线跟客观下线
+2. Sentinel三个定时任务
+   每10秒每个Sentinel对master和slave执行info：发现slave节点、确认主从关系
+   每2秒每个Sentinel通过master节点的channel交换信息（发布订阅）：Sentinel集群可弹性扩容、交换自身信息和对Redis节点的看法
+   每1秒每个Sentinel对其他Sentinel和Redis执行ping：心跳检测
+3. 主观下线和客观下线
+   主观下线：每个Sentinel节点对Redis节点失败的“偏见”
+   客观下线：所有Sentinel节点对Redis节点失败“达成共识”（≥quorum）
+   一般Sentinel节点数设置奇数个n，quorum = 1 + n/2
+4. 故障转移（由Sentinel leader节点完成，leader的选举由Sentinel集群内自己完成）
+   从slave节点中选择一个“合适”的节点作为新的master节点
+   对上面的slave节点执行slaveof no one命令让其成为master节点
+   向剩余的slave节点发送命令，让他们成为新master节点的slave节点，复制规则和parallel-syncs有关
+   更新原来master节点配置为slave，并保持对其关注，当其恢复后命令它去复制新的master节点
+5. JedisSentinelPool客户端：配合服务端实现高可用
+   客户端内部启动多个线程订阅所有Sentinel节点的+switch-master channel
+   当服务端故障转移完成后，Sentinel会发布更换master的消息对这个channel
+   在转移期间客户端不断重试报连接错误，待收到更换master的消息后会重新初始化连接池，服务就会正常
+6. 关于slave节点高可用
+   注意目前JedisSentinelPool只封装了master节点的故障转移，其他语言甚至还没有Sentinel高可用的客户端，若要实现slave节点自动故障转移，需要自己封装相应的客户端，订阅来自Sentinel的+sdown与+odown相应消息
