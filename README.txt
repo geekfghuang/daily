@@ -164,3 +164,11 @@
    主观下线：节点1向节点2发送ping消息，若节点2回复pong消息，节点1会更新与节点2最后通信时间；若节点2没有回复，节点1还会不断定时发送ping消息，当与节点2最后通信时间超过node-timeout则标记为主观下线pfail
    客观下线：半数以上持有槽的主节点都标记某节点主观下线。ping消息带有发送方认为的pfail信息，每个主节点会维护一个故障表，这个表包含集群所有主节点认为的pfail信息。当发现某节点的pfail数超过半数，则将其标记为客观下线，并向集群广播下线节点的fail消息
    故障恢复：针对被下线主节点的所有从节点，包括资格检查（每个从节点检查与故障主节点的断线时间，过长则取消资格）、准备选举时间（offset越大准备时间越短、越快发起选举）、选举投票（获得半数以上投票）、替换主节点（slaveof no one、clusterDelSlot与clusterAddSlot、向集群广播自己的pong消息表明已经替换了故障主节点）。smart客户端会收到广播的消息，完成刷新映射与连接池重新初始化。注意：在其中一个节点发布消息（Pub/Sub），整个集群都会收到发布的消息，意味着在集群Pub/Sub其实是广播消息
+
+2018-02-12，星期一，深圳，晴间多云，17°
+1. Redis学习：缓存（目的是保护存储层、加快响应速度）
+   缓存穿透问题：大量请求不命中cache，全部落到storage，cache层不再起作用。可能的原因有业务代码问题、恶意攻击等。解决方法一般是缓存“空对象”（空对象有过期时间，但需要更多的key，且cache层和storage层数据“短期”不一致）
+   无底洞问题：增加机器后性能反而下降，即增加机器不代表更高的性能。可以联想到Redis Cluster各个节点要不断地ping/pong，会非常消耗网络带宽；其次mget/mset等操作只能在一个节点中执行，因此客户端要先计算CRC16、查找本地映射等后聚合同一个节点的key，再串行或并行发送对单个节点的mget/mset，增加机器而言会加大客户端的工作量（mget/mset操作还可以通过串行get/set，hash_tag等操作完成），优化手段通常为hash_tag hgetall等能在单节点执行减少网络通信的做法
+   缓存热点key重建问题：高并发场景下的热点key，可能会有同时先后两个线程去读取storage刷新cache的现象。一般用redis互斥锁同步刷新cache的过程（将查询数据源与刷新缓存的过程锁住）
+   缓存穿透优化与热点key重建优化：https://github.com/geekfghuang/javaproj/blob/master/redis-cluster/src/main/java/RedisCacheAbout.java
+   CacheCloud：Redis云管理平台，提供Redis可视化部署、运维、监控等功能的平台，https://github.com/sohutv/cachecloud
