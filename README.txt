@@ -172,3 +172,17 @@
    缓存热点key重建问题：高并发场景下的热点key，可能会有同时先后两个线程去读取storage刷新cache的现象。一般用redis互斥锁同步刷新cache的过程（将查询数据源与刷新缓存的过程锁住）
    缓存穿透优化与热点key重建优化：https://github.com/geekfghuang/javaproj/blob/master/redis-cluster/src/main/java/RedisCacheAbout.java
    CacheCloud：Redis云管理平台，提供Redis可视化部署、运维、监控等功能的平台，https://github.com/sohutv/cachecloud
+
+2018-02-13，星期二，深圳，大部晴朗，15°
+1. Nginx学习：高效可靠的web服务、代理中间件
+   IO多路复用epoll、轻量级（功能模块少，注重核心模块、代码模块化）
+   CPU亲和：一个worker进程绑定一个CPU计算核心，减少CPU切换以及切换CPU带来的cache miss
+   sendfile：静态文件零拷贝
+2. Nginx学习：官方模块使用
+   检查配置文件语法：nginx -t -c /etc/nginx/nginx.conf
+   重新加载配置文件：nginx -s reload -c /etc/nginx/nginx.conf
+   http_sub_module：替换http内容
+   http_limit_conn_module：并发连接数限制
+   http_limit_req_module：请求频率限制（这里特指限制ip的频率，而不是总体）
+   http_access_module：访问控制，黑名单、白名单，但客户端走代理后则无法控制
+   http_auth_basic_module：访问控制，认证登录，用 htpasswd -c 目标文件 用户名 加入用户名密码
