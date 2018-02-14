@@ -186,3 +186,11 @@
    http_limit_req_module：请求频率限制（这里特指限制ip的频率，而不是总体）
    http_access_module：访问控制，黑名单、白名单，但客户端走代理后则无法控制
    http_auth_basic_module：访问控制，认证登录，用 htpasswd -c 目标文件 用户名 加入用户名密码
+
+2018-02-14，星期三，深圳，大部多云，21°
+1. Nginx学习：官方模块使用
+   ngx_http_gzip_module：压缩模块，可减少网络流量的消耗，提高响应效率
+2. Nginx设置http头信息：Cache-Control/Expires、Last-Modified/If-Modified-Since等
+   Cache-Control：max-age=[秒]，设置静态资源在浏览器本地的缓存时间
+   Expires：将来的时间点，也是设置静态资源在浏览器本地的缓存时间
+   Last-Modified/If-Modified-Since：Last-Modified是由服务器往客户端发送的HTTP头，If-Modified-Since是由客户端往服务器发送的头，当浏览器再次请求本地存在的cache页面时，客户端会通过If-Modified-Since头将先前服务器端发过来的Last-Modified最后修改时间戳发送回去，让服务器端进行验证，通过这个时间戳判断客户端的页面是否是最新的，如果不是最新的，则返回新的内容，如果是最新的，则返回304告诉客户端其本地cache的页面是最新的（body为空），于是客户端直接从本地加载页面，这样在网络上传输的数据就会大大减少，同时也减轻了服务器的负担
