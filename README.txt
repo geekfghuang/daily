@@ -211,3 +211,5 @@
 	proxy_pass http://$http_host$request_uri;
    }
    然后在客户端浏览器配置代理服务器为B即可
+4. Nginx学习：正向代理与反向代理
+   在Nginx中无论是正向代理还是反向代理，语法都是proxy_pass，一般还要设置proxy_set_header X-Real-IP $remote_addr;因为最终的处理服务器可能需要真实客户端的IP做一些定位、监控服务等等
