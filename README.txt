@@ -194,3 +194,20 @@
    Cache-Control：max-age=[秒]，设置静态资源在浏览器本地的缓存时间
    Expires：将来的时间点，也是设置静态资源在浏览器本地的缓存时间
    Last-Modified/If-Modified-Since：Last-Modified是由服务器往客户端发送的HTTP头，If-Modified-Since是由客户端往服务器发送的头，当浏览器再次请求本地存在的cache页面时，客户端会通过If-Modified-Since头将先前服务器端发过来的Last-Modified最后修改时间戳发送回去，让服务器端进行验证，通过这个时间戳判断客户端的页面是否是最新的，如果不是最新的，则返回新的内容，如果是最新的，则返回304告诉客户端其本地cache的页面是最新的（body为空），于是客户端直接从本地加载页面，这样在网络上传输的数据就会大大减少，同时也减轻了服务器的负担
+
+2018-02-15，星期四，深圳，大部多云，23°
+1. Nginx学习：防盗链
+   通过判定http_referer头信息，防止静态资源链接被其他网站直接使用
+   valid_referers none blocked 101.200.45.225;
+   if ($invalid_referer) {
+   	return 403;
+   }
+2. Nginx学习：反向代理
+   proxy_pass http://127.0.0.1;
+3. Nginx学习：正向代理
+   如果服务器A已经通过访问控制规则（deny、allow、http_x_forward_for）限制只允许一个固定IP服务器B的访问，那么在服务器B上应该配置代理语法如下：
+   resolver 8.8.8.8
+   location / {
+	proxy_pass http://$http_host$request_uri;
+   }
+   然后在客户端浏览器配置代理服务器为B即可
