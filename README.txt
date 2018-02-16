@@ -213,3 +213,26 @@
    然后在客户端浏览器配置代理服务器为B即可
 4. Nginx学习：正向代理与反向代理
    在Nginx中无论是正向代理还是反向代理，语法都是proxy_pass，一般还要设置proxy_set_header X-Real-IP $remote_addr;因为最终的处理服务器可能需要真实客户端的IP做一些定位、监控服务等等
+
+2018-02-16，星期五，深圳，晴间多云，27°
+1. Nginx学习：负载均衡
+   upstream goload {
+        server 127.0.0.1:9991;
+        server 127.0.0.1:9992;
+        server 127.0.0.1:9993;
+   }
+   proxy_pass http://goload;
+   负载策略默认是等权重轮询
+2. Nginx学习：调整后端服务器在负载均衡中的状态
+   down：不参与负载均衡
+   backup：备份服务器，当有节点可用时，不参与负载均衡
+   max_fails：允许请求失败的次数
+   fail_timeout：经过max_fails失败后，服务暂停的时间，该时间过后nginx会继续检查该节点是否可用
+   max_conns：限制最大接收的连接数，预防后端节点性能不同，因为默认策略是等权轮询
+3. Nginx学习：负载均衡策略
+   轮询、加权轮询（weight），可能遇到的问题是cookie与session等不匹配，会造成掉线的情况
+   ip_hash：解决了掉线的问题，但当用户走正向代理时，所有的请求都会只落到一台服务器上
+   url_hash：hash $request_uri;根据/test、/{id}/info等请求url的hash值进行判定
+4. Nginx学习：缓存
+   缓存分为服务端缓存、客户端缓存、代理缓存，Nginx属于代理缓存
+   配置proxy_cache_path、proxy_cache、proxy_cache_key等，缓存生效后如果默认策略是等权轮询，那么以后每次返回的结果会是第一次返回的结果，因为结果已经被缓存到磁盘中
