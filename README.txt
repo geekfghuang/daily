@@ -236,3 +236,20 @@
 4. Nginx学习：缓存
    缓存分为服务端缓存、客户端缓存、代理缓存，Nginx属于代理缓存
    配置proxy_cache_path、proxy_cache、proxy_cache_key等，缓存生效后如果默认策略是等权轮询，那么以后每次返回的结果会是第一次返回的结果，因为结果已经被缓存到磁盘中
+
+2018-02-17，星期六，深圳，局部多云，22°
+1. Nginx学习：动静分离提高后端核心服务性能
+2. Nginx学习：Lua模块安装与简单测试
+   Nginx安装Lua：https://www.imooc.com/article/19597、https://www.cnblogs.com/aoeiuv/p/6856056.html
+   Nginx简单测试Lua：
+   location /lua {
+       default_type 'text/plain';
+       content_by_lua 'ngx.say("hello, lua")';
+   }
+   location /myip {
+       default_type 'text/plain';
+       content_by_lua '
+           clientIP = ngx.var.remote_addr 
+           clientPort = ngx.var.remote_port
+           ngx.say("IP:", clientIP, ":", clientPort)';
+   }
