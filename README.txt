@@ -253,3 +253,32 @@
            clientPort = ngx.var.remote_port
            ngx.say("IP:", clientIP, ":", clientPort)';
    }
+
+2018-02-18，星期日，深圳，大部多云，20°
+1. Nginx学习：结合Lua实现灰度发布
+   location /grayscale {
+       default_type "text/html";
+       content_by_lua_file /root/geekfghuang/luaproj/grayscale.lua;
+   }
+   location @server {
+       proxy_pass http://127.0.0.1:9991;
+   }
+   location @server_test {
+       proxy_pass http://127.0.0.1:9993;
+   }
+
+   clientIP = ngx.req.get_headers()["X-Real-IP"]
+   if clientIP == nil then
+       clientIP = ngx.req.get_headers()["x_forwarded_for"]
+   end
+   if clientIP == nil then
+       clientIP = ngx.var.remote_addr
+   end
+   --灰度发布白名单IP走@server_test，其他IP走原服务
+   if clientIP == "119.123.185.177" then
+       ngx.exec("@server_test")
+   else
+       ngx.exec("@server")
+   end
+
+   注意查看Nginx logs文件夹下的access.log、error.log等日志，用于监控访问情况、有效定位错误等
