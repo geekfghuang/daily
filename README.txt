@@ -302,7 +302,7 @@
    调整文件句柄数：系统全局性修改、用户局部性修改、进程局部性修改
    Nginx进程调整文件句柄：worker_rlimit_nofile 65535;
    NginxCPU亲和配置：worker_processes 16;worker_cpu_affinity auto;
-5. Nginx学习：LNMP架构
+6. Nginx学习：LNMP架构
    yum install php php-fpm php-mysql
    修改php-fpm配置文件，user、group均设为root
    php-fpm -R -D启动php-fpm
