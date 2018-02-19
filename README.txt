@@ -282,3 +282,23 @@
    end
 
    注意查看Nginx logs文件夹下的access.log、error.log等日志，用于监控访问情况、有效定位错误等
+
+2018-02-19，星期一，深圳，晴间多云，26°
+1. Nginx学习：location匹配
+   =    精确匹配
+   ^~   前缀匹配
+   ~\~* 正则匹配（优先级低，即使匹配成功了也会继续匹配其他）
+2. Nginx学习：传递用户真实IP
+   在用户的第一层代理中set http头x_real_ip=$remote_addr，然后透传到最终后端服务
+3. Http响应状态码
+   500Internal Server Error服务器内部错误，一般是源代码有错误
+   502Bad Gateway后端服务无响应，服务down掉
+   503Service Unavailable可能服务器临时的过载导致无法处理请求，一段时间后会自动恢复
+   504Gateway Timeout后端服务执行超时
+4. 压力测试
+   yum install httpd-tools
+   ab -n 2000 -c 2 url
+5. Nginx学习：系统与Nginx性能优化
+   调整文件句柄数：系统全局性修改、用户局部性修改、进程局部性修改
+   Nginx进程调整文件句柄：worker_rlimit_nofile 65535;
+   NginxCPU亲和配置：worker_processes 16;worker_cpu_affinity auto;
