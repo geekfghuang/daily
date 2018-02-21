@@ -314,3 +314,12 @@
        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
        include fastcgi_params;
    }
+
+2018-02-21，星期三，深圳，阵雨，19°
+1. CI框架搭建简单博客：https://github.com/geekfghuang/phpproj/tree/master/CI-blog
+2. 用PHP实现一个MVC模型
+   index.php为入口文件
+   在入口文件中获取用户请求的controller和action
+   include相应文件后，实例化一个controller对象，调用action方法
+   在action中include相应模型文件并实例化模型对象，获取相关模型数据为局部变量
+   在action中include相应视图文件，该视图文件可以直接使用action内的局部变量
