@@ -328,7 +328,17 @@
 1. CI框架学习：简单使用
    控制器、视图的使用
    超级对象load、uri、input等属性的使用
-2. CI框架学习：数据库操作
+2. CI框架学习：数据库操作（query）
    数据库类默认不加载，首先需要加载数据库类，$this->db就会被实例化赋值
    $res = $this->db->query($sql);返回对象、$res->result()返回数组，数组中是一个个对象、$res->result_array()返回二维数据，里面是关联对象，$res->row()返回第一条数据，直接是一个对象
    在insert或update或delete操作后，可以通过$this->db->affected_rows();或$this->db->insert_id();返回受影响的数据，因为前后是通过conn_id联系的，在同一个连接内才能获取，关闭或向连接池归还连接后都会被清空
+3. CI框架学习：数据库操作（AR）
+   //select id, name from user where id >= 3 order by id desc limit 2, 3;
+   $res = $this->db->select('id, name')
+        ->from('user')
+        ->where('id >=', 3)
+        ->limit(3, 2)//跳过2条，取出3条数据
+        ->order_by('id desc')
+        ->get();
+    //显示最近一条SQL
+    echo $this->db->last_query();
