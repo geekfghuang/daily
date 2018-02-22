@@ -340,5 +340,20 @@
         ->limit(3, 2)//跳过2条，取出3条数据
         ->order_by('id desc')
         ->get();
-    //显示最近一条SQL
-    echo $this->db->last_query();
+   //显示最近一条SQL
+   echo $this->db->last_query();
+4. 一般扩展框架的方法：继承
+5. CI框架学习：模型
+   在application/models下新建*_model.php extends CI_Model文件，在模型层调用$this->db->get('*');return $res->result();等方法
+   因为CI_Model下有如下魔术方法：
+   public function __get($key) {
+	return get_instance()->$key;
+   }
+   而get_instance()如下：
+   function &get_instance() {
+	return CI_Controller::get_instance();
+   }
+   所以，在model层能直接像controller层那样$this->db->get()等操作
+   在controller层调用model层代码如下：
+   $this->load->model('User_model', 'user');
+   $list = $this->user->getAll();
