@@ -357,3 +357,7 @@
    在controller层调用model层代码如下：
    $this->load->model('User_model', 'user');
    $list = $this->user->getAll();
+
+2018-02-24，星期六，深圳，有雾，18°
+1. dataV的简单实用：静态数据呈现、api方式获取数据
+2. 开发Uduck日志生成器：https://github.com/geekfghuang/Uduck/tree/master/log-generator
