@@ -361,3 +361,10 @@
 2018-02-24，星期六，深圳，有雾，18°
 1. dataV的简单实用：静态数据呈现、api方式获取数据
 2. 开发Uduck日志生成器：https://github.com/geekfghuang/Uduck/tree/master/log-generator
+
+2018-02-25，星期日，深圳，有雾，21°
+1. Uduck日志生成器加入定时调度
+
+2018-02-26，星期一，深圳，大部多云，21°
+1. Flume将Uduck日志生成器生成的日志数据收集至Kafka
+2. Spark Streaming从Kafka中简单消费日志数据
